@@ -21,3 +21,7 @@ class Calculator:
             ('1', 0, 280), ('2', 90, 280), ('3', 180, 280), ('-', 270, 280),
             ('0', 0, 350), ('.', 90, 350), ('+', 180, 350), ('=', 270, 350)
         ]
+
+        for (text, x, y) in buttons:
+            Button(master, text=text, width=11, height=4, relief='flat', bg='white', 
+                   command=lambda txt=text: self.click(txt)).place(x=x, y=y)
