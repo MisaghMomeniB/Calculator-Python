@@ -25,3 +25,29 @@ class Calculator:
         for (text, x, y) in buttons:
             Button(master, text=text, width=11, height=4, relief='flat', bg='white', 
                    command=lambda txt=text: self.click(txt)).place(x=x, y=y)
+            
+    def click(self, value):
+        if value == '=':
+            self.solve()
+        elif value == 'C':
+            self.clear()
+        else:
+            self.entry_value += str(value)
+            self.equation.set(self.entry_value)
+
+    def clear(self):
+        self.entry_value = ''
+        self.equation.set('')
+
+    def solve(self):
+        try:
+            result = eval(self.entry_value)
+            self.equation.set(result)
+            self.entry_value = str(result)
+        except Exception as e:
+            self.equation.set("Error")
+            self.entry_value = ''
+
+root = Tk()
+Calculator = Calculator(root)
+root.mainloop()
