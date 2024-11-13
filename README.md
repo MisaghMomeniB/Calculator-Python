@@ -11,154 +11,270 @@ There’s No Need to Install Any __Libraries__ or Set Up a Specific Environment.
 
 # Line-by-line Code Analysis
 
+Here is a detailed line-by-line explanation of the provided code for the `Calculator` class, including its GUI and functionality setup using Tkinter in Python:
+
+---
+
+### Importing Necessary Modules
+
 ```python
 from tkinter import Tk, Entry, Button, StringVar
 ```
-- **Importing Modules**: This line imports essential components from the `tkinter` library. `Tk` is the main window class, `Entry` is a widget for user input, `Button` is for creating buttons, and `StringVar` is a variable class that helps manage string variables in Tkinter.
+
+- Imports the `Tk`, `Entry`, `Button`, and `StringVar` classes from the `tkinter` library, which is Python’s standard library for creating GUI applications.
+- `Tk` is used to create the main application window.
+- `Entry` creates a single-line text box to display the calculator’s equation and results.
+- `Button` is used to create buttons for the calculator’s interface.
+- `StringVar` is a Tkinter variable type that dynamically updates the entry field when its value is changed.
+
+---
+
+### Defining the Calculator Class
 
 ```python
 class Calculator:
 ```
-- **Class Definition**: This line defines a new class called `Calculator`. A class is a blueprint for creating objects that can encapsulate data and functionality.
+
+- Defines a class named `Calculator` that will handle the GUI layout and logic for this calculator app.
+
+---
+
+### `__init__` Method
 
 ```python
-def __init__(self, master):
+    def __init__(self, master):
 ```
-- **Constructor Method**: This method initializes the `Calculator` class. The `master` parameter represents the main window in which the calculator will be displayed.
+
+- This is the constructor method of the `Calculator` class, which is automatically called when an instance of `Calculator` is created.
+- It initializes key variables, configures the window, and creates GUI components like the display and buttons.
+
+---
+
+#### Setting Up the Calculator Window
 
 ```python
-master.title("Calculator")
+        self.configure_window(master)
 ```
-- **Set Window Title**: This sets the title of the main window to "Calculator".
+
+- Calls the `configure_window` method to set up the main window’s appearance and behavior.
+
+#### Setting Up Calculator Display and Initial Values
 
 ```python
-master.geometry('357x420+0+0')
+        self.equation = StringVar()
+        self.entry_value = ''
 ```
-- **Set Window Size and Position**: This line defines the dimensions of the window as 357 pixels wide and 420 pixels tall, positioned at (0, 0) on the screen.
+
+- `self.equation` is a `StringVar` instance, which will dynamically update the calculator’s entry display with each change.
+- `self.entry_value` is a plain string to store the current input string, which allows appending of numbers and operators before final evaluation.
+
+---
+
+#### Creating Display and Buttons
 
 ```python
-master.config(bg='purple')
+        self.create_display(master)
+        self.create_buttons(master)
 ```
-- **Set Background Color**: This sets the background color of the window to purple.
+
+- Calls the `create_display` and `create_buttons` methods to add the calculator’s display and buttons to the GUI.
+
+---
+
+### Window Configuration: `configure_window`
 
 ```python
-master.resizable(False, False)
+    def configure_window(self, master):
 ```
-- **Disable Resizing**: This prevents the user from resizing the window, keeping the defined dimensions intact.
+
+- This method sets up the main window’s properties like title, size, background color, and resize restrictions.
 
 ```python
-self.equation = StringVar()
-self.entry_value = ''
+        master.title("Calculator")
 ```
-- **String Variable and Entry Value**: `self.equation` is a `StringVar` that will hold the current expression entered by the user. `self.entry_value` is an empty string that will build the equation as buttons are pressed.
+
+- Sets the title of the window to "Calculator."
 
 ```python
-Entry(width=17, bg='#fff', font=('Arial Bold', 28), textvariable=self.equation).place(x=0, y=0)
+        master.geometry('357x420+0+0')
 ```
-- **Entry Widget**: This line creates an input field (Entry widget) for displaying the equation. It has a width of 17 characters, a white background, a bold Arial font size of 28, and it is bound to `self.equation`. The `place` method positions it at coordinates (0, 0).
+
+- Defines the initial size of the window as 357 pixels wide and 420 pixels high, positioned at the top-left corner of the screen (`+0+0`).
 
 ```python
-buttons = [
-    ('(', 0, 70), (')', 90, 70), ('%', 180, 70), ('C', 270, 70),
-    ('7', 0, 140), ('8', 90, 140), ('9', 180, 140), ('/', 270, 140),
-    ('4', 0, 210), ('5', 90, 210), ('6', 180, 210), ('*', 270, 210),
-    ('1', 0, 280), ('2', 90, 280), ('3', 180, 280), ('-', 270, 280),
-    ('0', 0, 350), ('.', 90, 350), ('+', 180, 350), ('=', 270, 350)
-]
+        master.config(bg='white')
 ```
-- **Button Layout**: This creates a list of tuples that define each button's text and its position (x, y) in the window. Each tuple contains the button's label (like '7', '+', 'C', etc.) and its coordinates.
+
+- Sets the background color of the main window to white.
 
 ```python
-for (text, x, y) in buttons:
+        master.resizable(False, False)
 ```
-- **Button Creation Loop**: This loop iterates over each button in the `buttons` list to create and place the buttons in the window.
+
+- Disables window resizing, which keeps the buttons’ layout fixed.
+
+---
+
+### Creating Display: `create_display`
 
 ```python
-Button(master, text=text, width=11, height=4, relief='flat', bg='white', 
-       command=lambda txt=text: self.click(txt)).place(x=x, y=y)
+    def create_display(self, master):
 ```
-- **Button Definition**: This creates a Button widget for each item in the `buttons` list. It sets various properties:
-  - `text`: the label on the button.
-  - `width` and `height`: dimensions of the button.
-  - `relief`: button style (flat, in this case).
-  - `bg`: background color (white).
-  - `command`: sets the action to be taken when the button is clicked. It uses a lambda function to call `self.click()` with the button's text as an argument.
-  - `place(x, y)`: positions the button in the window.
+
+- This method creates the entry field to show the current equation or result.
 
 ```python
-def click(self, value):
+        Entry(master, width=17, bg='#fff', font=('Arial Bold', 28), textvariable=self.equation).place(x=0, y=0)
 ```
-- **Button Click Method**: This method is called whenever a button is pressed. It takes the button's text value as an argument.
+
+- Creates an `Entry` widget with:
+  - `width=17`: Width of the entry field.
+  - `bg='#fff'`: White background for the entry.
+  - `font=('Arial Bold', 28)`: Uses bold Arial font with size 28 for clear visibility.
+  - `textvariable=self.equation`: Binds the entry to `self.equation`, so any change in `self.equation` will update the display.
+- `.place(x=0, y=0)`: Positions the entry field at the top-left corner (0, 0).
+
+---
+
+### Creating Buttons: `create_buttons`
 
 ```python
-if value == '=':
-    self.solve()
+    def create_buttons(self, master):
 ```
-- **Evaluate Equation**: If the button clicked is "=", it calls the `solve()` method to evaluate the expression.
+
+- This method defines and arranges all calculator buttons in a grid layout, including numbers, operators, and functions like `C` and `=`.
+  
+```python
+        buttons = [
+            ('(', 0, 70), (')', 90, 70), ('%', 180, 70), ('C', 270, 70),
+            ('7', 0, 140), ('8', 90, 140), ('9', 180, 140), ('/', 270, 140),
+            ('4', 0, 210), ('5', 90, 210), ('6', 180, 210), ('*', 270, 210),
+            ('1', 0, 280), ('2', 90, 280), ('3', 180, 280), ('-', 270, 280),
+            ('0', 0, 350), ('.', 90, 350), ('+', 180, 350), ('=', 270, 350)
+        ]
+```
+
+- Creates a list of tuples representing button labels and their positions on the screen. Each tuple has:
+  - `text`: Button label.
+  - `x`: X-coordinate position.
+  - `y`: Y-coordinate position.
+
+---
+
+#### Loop to Create Buttons
 
 ```python
-elif value == 'C':
-    self.clear()
+        for (text, x, y) in buttons:
+            Button(master, text=text, width=11, height=4, relief='flat', bg='white',
+                   command=lambda txt=text: self.handle_click(txt)).place(x=x, y=y)
 ```
-- **Clear Entry**: If the button is "C", it calls the `clear()` method to reset the display.
+
+- Loops over each button in the `buttons` list and creates a `Button` widget with:
+  - `text=text`: The button’s label.
+  - `width=11`, `height=4`: Button dimensions.
+  - `relief='flat'`: Flat design style.
+  - `bg='white'`: White background.
+  - `command=lambda txt=text: self.handle_click(txt)`: Sets the button’s command to `handle_click`, passing the button text as an argument.
+- `.place(x=x, y=y)`: Places each button at the specified (x, y) coordinates.
+
+---
+
+### Handling Button Clicks: `handle_click`
 
 ```python
-else:
-    self.entry_value += str(value)
-    self.equation.set(self.entry_value)
+    def handle_click(self, value):
 ```
-- **Build Entry Value**: For all other button presses, it adds the button's text to `self.entry_value` and updates the display using `self.equation`.
+
+- This method processes the actions based on the button that was clicked. It takes `value` as an argument, representing the button label.
 
 ```python
-def clear(self):
+        if value == '=':
+            self.solve()
 ```
-- **Clear Method**: This method clears the current input and resets the display.
+
+- If the `=` button is clicked, it calls the `solve` method to evaluate the current equation.
 
 ```python
-self.entry_value = ''
-self.equation.set('')
+        elif value == 'C':
+            self.clear()
 ```
-- **Reset Values**: It sets `self.entry_value` to an empty string and clears the display.
+
+- If the `C` button is clicked, it calls the `clear` method to reset the entry field.
 
 ```python
-def solve(self):
+        else:
+            self.update_entry(value)
 ```
-- **Solve Method**: This method evaluates the mathematical expression stored in `self.entry_value`.
+
+- For all other buttons (numbers and operators), it calls `update_entry` to add the value to the current equation.
+
+---
+
+### Updating Entry: `update_entry`
 
 ```python
-try:
-    result = eval(self.entry_value)
+    def update_entry(self, value):
 ```
-- **Evaluate Expression**: It uses Python's built-in `eval()` function to compute the result of the expression. Note that `eval()` can be dangerous if the input is not sanitized, as it can execute arbitrary code.
+
+- This method appends the clicked button’s `value` to `self.entry_value` and updates the display.
 
 ```python
-self.equation.set(result)
-self.entry_value = str(result)
+        self.entry_value += str(value)
+        self.equation.set(self.entry_value)
 ```
-- **Display Result**: If evaluation is successful, it sets the display to the result and updates `self.entry_value` with the result for further calculations.
+
+- Adds `value` to `self.entry_value` and updates `self.equation`, so the entry field displays the new equation.
+
+---
+
+### Clearing the Entry: `clear`
 
 ```python
-except Exception as e:
-    self.equation.set("Error")
-    self.entry_value = ''
+    def clear(self):
 ```
-- **Error Handling**: If an exception occurs during evaluation (like a syntax error), it displays "Error" in the entry and resets `self.entry_value`.
+
+- Clears the current input and resets the display.
+
+```python
+        self.entry_value = ''
+        self.equation.set('')
+```
+
+- Resets `self.entry_value` to an empty string and clears `self.equation`, updating the entry field.
+
+---
+
+### Solving the Equation: `solve`
+
+```python
+    def solve(self):
+```
+
+- This method evaluates the current equation stored in `self.entry_value`.
+
+```python
+        try:
+            result = eval(self.entry_value)
+            self.equation.set(result)
+            self.entry_value = str(result)
+        except Exception:
+            self.equation.set("Error")
+            self.entry_value = ''
+```
+
+- Uses `eval` to evaluate `self.entry_value` as a Python expression.
+- If evaluation succeeds, `result` is displayed and stored for further calculations.
+- If an error occurs (e.g., invalid syntax), it displays "Error" and clears `self.entry_value`.
+
+---
+
+### Running the Application
 
 ```python
 root = Tk()
-```
-- **Main Window Creation**: This creates the main window for the application.
-
-```python
-Calculator = Calculator(root)
-```
-- **Calculator Instance**: This creates an instance of the `Calculator` class, passing the main window (`root`) to it, which sets up the GUI.
-
-```python
+calculator = Calculator(root)
 root.mainloop()
 ```
-- **Event Loop**: This starts the Tkinter event loop, which keeps the window open and responsive until it is closed by the user.
 
-### Summary
-
-This code defines a simple calculator GUI using Tkinter. It creates buttons for digits and operations, allows users to input equations, evaluates them, and displays the results. The use of `StringVar` helps in updating the display dynamically, and methods are defined to handle button clicks, clear input, and evaluate expressions. The GUI is straightforward and functions as a basic calculator.
+- Creates the main application window (`root`) and initializes the `Calculator` class, setting up the GUI.
+- `root.mainloop()` starts the Tkinter event loop, keeping the GUI running until the window is closed.
