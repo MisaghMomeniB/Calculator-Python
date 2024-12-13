@@ -13,9 +13,6 @@ Welcome to my Python-based GUI calculator project! 🎉 This calculator is built
 - 🧠 **Error handling**: Shows "Error" if the input is invalid.
 - 🔄 Supports continuous calculations without resetting the application.
 
-### 📸 Screenshots:
-![Calculator Screenshot](your_image_url_here)  *(Optional: Add a screenshot of the app in action!)*
-
 ### 🔧 How It Works:
 This calculator handles user input through a text entry and buttons for numbers and operators. It then evaluates the entered mathematical expressions and displays the result. Below is a breakdown of the implementation:
 
