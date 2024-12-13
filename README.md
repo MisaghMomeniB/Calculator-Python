@@ -1,7 +1,3 @@
-Here's a cool and comprehensive README for your GitHub profile that introduces the project with a bit of style and emojis:
-
----
-
 # 🧮 Python GUI Calculator
 
 Welcome to my Python-based GUI calculator project! 🎉 This calculator is built using the powerful `tkinter` library and serves as a simple yet fully functional application for solving arithmetic expressions. It supports basic operations like addition, subtraction, multiplication, division, and even parentheses for more complex calculations. 🤖💻
