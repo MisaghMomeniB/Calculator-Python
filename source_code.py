@@ -1,4 +1,4 @@
-from tkinter import Tk, Entry, Button, StringVar, Label
+from tkinter import Tk, Entry, Button, StringVar, Label, Frame
 import math
 
 class Calculator:
@@ -14,35 +14,45 @@ class Calculator:
 
     def configure_window(self, master):
         master.title("Calculator")
-        master.geometry('400x600')
-        master.config(bg='white')
+        master.geometry('400x650')
+        master.config(bg='#f0f0f0')
         master.resizable(False, False)
 
     def create_display(self, master):
-        self.entry = Entry(master, width=17, bg='#fff', font=('Arial Bold', 28),
-                           textvariable=self.equation)
-        self.entry.place(x=0, y=0)
+        self.entry_frame = Frame(master, bg='#f0f0f0')
+        self.entry_frame.pack(pady=10)
+        self.entry = Entry(self.entry_frame, width=17, bg='#e6e6e6', font=('Arial Bold', 28),
+                           textvariable=self.equation, borderwidth=5, relief='ridge')
+        self.entry.pack()
         self.entry.bind('<Key>', self.keyboard_input)
 
     def create_history_display(self, master):
-        self.history_label = Label(master, text="History:", font=('Arial', 12))
-        self.history_label.place(x=0, y=450)
-        self.history_box = Label(master, text="", font=('Arial', 10), justify='left', anchor='w', bg='white')
-        self.history_box.place(x=0, y=480, width=400, height=100)
+        self.history_label = Label(master, text="History:", font=('Arial', 12), bg='#f0f0f0')
+        self.history_label.pack(pady=10)
+        self.history_box = Label(master, text="", font=('Arial', 10), justify='left', anchor='w',
+                                 bg='#fff', borderwidth=2, relief='sunken')
+        self.history_box.pack(padx=10, pady=5, fill='both')
 
     def create_buttons(self, master):
+        button_frame = Frame(master, bg='#f0f0f0')
+        button_frame.pack(pady=10)
+
         buttons = [
-            ('(', 0, 70), (')', 90, 70), ('%', 180, 70), ('C', 270, 70),
-            ('7', 0, 140), ('8', 90, 140), ('9', 180, 140), ('/', 270, 140),
-            ('4', 0, 210), ('5', 90, 210), ('6', 180, 210), ('*', 270, 210),
-            ('1', 0, 280), ('2', 90, 280), ('3', 180, 280), ('-', 270, 280),
-            ('0', 0, 350), ('.', 90, 350), ('+', 180, 350), ('=', 270, 350),
-            ('sin', 0, 420), ('cos', 90, 420), ('tan', 180, 420), ('log', 270, 420),
-            ('π', 0, 490), ('e', 90, 490), ('^', 180, 490), ('√', 270, 490)
+            ('(', ')', '%', 'C'),
+            ('7', '8', '9', '/'),
+            ('4', '5', '6', '*'),
+            ('1', '2', '3', '-'),
+            ('0', '.', '+', '='),
+            ('sin', 'cos', 'tan', 'log'),
+            ('π', 'e', '^', '√')
         ]
-        for (text, x, y) in buttons:
-            Button(master, text=text, width=11, height=2, relief='flat', bg='white',
-                   command=lambda txt=text: self.handle_click(txt)).place(x=x, y=y)
+
+        for row in buttons:
+            button_row = Frame(button_frame, bg='#f0f0f0')
+            button_row.pack(side='top', fill='both')
+            for text in row:
+                Button(button_row, text=text, width=10, height=2, relief='raised', bg='#d1d1d1',
+                       command=lambda txt=text: self.handle_click(txt)).pack(side='left', padx=5, pady=5)
 
     def handle_click(self, value):
         if value == '=':
@@ -94,7 +104,6 @@ class Calculator:
             self.entry_value = ''
 
     def update_history(self):
-        # Ensure history is displayed correctly with line breaks
         history_text = "\n".join(self.history[-5:])
         self.history_box.config(text=history_text)
 
