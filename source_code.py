@@ -30,7 +30,7 @@ class Calculator:
         self.history_label = Label(master, text="History:", font=('Arial', 12), bg='#f0f0f0')
         self.history_label.pack(pady=10)
         self.history_box = Label(master, text="", font=('Arial', 10), justify='left', anchor='w',
-                                 bg='#fff', borderwidth=2, relief='sunken')
+                                 bg='#fff', borderwidth=2, relief='sunken', height=5)
         self.history_box.pack(padx=10, pady=5, fill='both')
 
     def create_buttons(self, master):
@@ -55,28 +55,31 @@ class Calculator:
                        command=lambda txt=text: self.handle_click(txt)).pack(side='left', padx=5, pady=5)
 
     def handle_click(self, value):
-        if value == '=':
-            self.solve()
-        elif value == 'C':
-            self.clear()
-        elif value == 'π':
-            self.update_entry(math.pi)
-        elif value == 'e':
-            self.update_entry(math.e)
-        elif value == 'sin':
-            self.update_entry('sin(')
-        elif value == 'cos':
-            self.update_entry('cos(')
-        elif value == 'tan':
-            self.update_entry('tan(')
-        elif value == 'log':
-            self.update_entry('log(')
-        elif value == '√':
-            self.update_entry('sqrt(')
-        elif value == '^':
-            self.update_entry('**')
-        else:
-            self.update_entry(value)
+        try:
+            if value == '=':
+                self.solve()
+            elif value == 'C':
+                self.clear()
+            elif value == 'π':
+                self.update_entry(math.pi)
+            elif value == 'e':
+                self.update_entry(math.e)
+            elif value == 'sin':
+                self.update_entry('sin(')
+            elif value == 'cos':
+                self.update_entry('cos(')
+            elif value == 'tan':
+                self.update_entry('tan(')
+            elif value == 'log':
+                self.update_entry('log(')
+            elif value == '√':
+                self.update_entry('sqrt(')
+            elif value == '^':
+                self.update_entry('**')
+            else:
+                self.update_entry(value)
+        except Exception as e:
+            self.equation.set("Error")
 
     def update_entry(self, value):
         self.entry_value += str(value)
